@@ -68,4 +68,55 @@ describe('TODOMvc App', () => {
       .children()
       .should('have.length', 2);
   });
+  it('Edita uma tarefa ', () => {
+    cy.visit('');
+  
+    cy.get('.new-todo')
+      .type('TP2 de Engenharia de Software{enter}');
+  
+    cy.get('.todo-list li')
+      .dblclick();
+  
+    cy.get('.todo-list li.editing .edit')
+      .clear()
+      .type('TP2 de ES atualizado{enter}');
+  
+    cy.get('.todo-list li')
+      .should('have.length', 1)
+      .first()
+      .should('have.text', 'TP2 de ES atualizado');
+  });
+  
+  
+  it('Tarefas pendentes', () => {
+    cy.visit('');
+  
+    cy.get('.new-todo')
+      .type('TP2 de Engenharia de Software{enter}')
+      .type('Prova de Engenharia de Software{enter}');
+  
+    cy.get('.todo-count')
+      .should('contain', '2 items left');
+  
+    cy.get('.todo-list li .toggle')
+      .first()
+      .click();
+  
+    cy.get('.todo-count')
+      .should('contain', '1 item left');
+  });
+  
+  it('Lista vazia', () => {
+    cy.visit('');
+  
+    cy.get('.todo-list li')
+      .should('have.length', 0);
+  
+    cy.get('.new-todo')
+      .type('TP2 de Engenharia de Software{enter}');
+  
+    cy.get('.todo-list li')
+      .should('have.length', 1);
+  });
+  
 });
